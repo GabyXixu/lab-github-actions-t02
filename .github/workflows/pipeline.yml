@@ -16,6 +16,14 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
+      - name: Imprimir contexto
+        run: |
+          echo "SHA: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Evento: ${{ github.event_name }}"
+          echo "Actor: ${{ github.actor }}"
+          echo "Runner OS: ${{ runner.os }}"
+
       - name: Login a Docker Hub
         uses: docker/login-action@v3
         with:
