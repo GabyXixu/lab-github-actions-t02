@@ -16,6 +16,8 @@ jobs:
   build-and-push:
     name: Build & Push Docker Image
     runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.tag.outputs.value }}
     env:
       BUILD_TARGET: production
 
@@ -70,3 +72,7 @@ jobs:
     steps:
       - name: Simular tests
         run: echo "Tests pendientes - se implementan en el siguiente paso"
+
+      - name: Usar tag del job anterior
+        run: |
+          echo "Tag recibido: ${{ needs['build-and-push'].outputs.image_tag }}"
