@@ -7,10 +7,17 @@ on:
     branches: [main]
   workflow_dispatch:
 
+env:
+  APP_NAME: lab-github-actions
+  REGISTRY: docker.io
+  IMAGE_TAG: ${{ github.sha }}
+
 jobs:
   build-and-push:
     name: Build & Push Docker Image
     runs-on: ubuntu-latest
+    env:
+      BUILD_TARGET: production
 
     steps:
       - name: Checkout código
@@ -23,6 +30,14 @@ jobs:
           echo "Evento: ${{ github.event_name }}"
           echo "Actor: ${{ github.actor }}"
           echo "Runner OS: ${{ runner.os }}"
+
+      - name: Usar variables
+        env:
+          STEP_VAR: valor-local
+        run: |
+          echo "App: $APP_NAME"
+          echo "Target: $BUILD_TARGET"
+          echo "Step var: $STEP_VAR"
 
       - name: Login a Docker Hub
         uses: docker/login-action@v3
