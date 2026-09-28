@@ -39,6 +39,16 @@ jobs:
           echo "Target: $BUILD_TARGET"
           echo "Step var: $STEP_VAR"
 
+      - name: Generar tag de imagen
+        id: tag
+        run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
+          echo "value=$SHORT_SHA" >> $GITHUB_OUTPUT
+
+      - name: Usar el tag
+        run: |
+          echo "Tag: ${{ steps.tag.outputs.value }}"
+
       - name: Login a Docker Hub
         uses: docker/login-action@v3
         with:
